@@ -1,9 +1,16 @@
 package com.example
 
+import com.example.data.model.tables.UserTable
 import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import io.ktor.server.application.*
 import io.ktor.server.config.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.transactions.transaction
 
 object DatabaseFactory {
 
@@ -12,6 +19,17 @@ object DatabaseFactory {
     private val dbUser = System.getenv("DB_POSTGRES_USER")
     private val dbPassword = System.getenv("DB_POSTGRES_PASSWORD")
 
+    fun Application.initializateDatabase() {
+        Database.connect(getHikariDataSource())
+
+        transaction {
+            addLogger(StdOutSqlLogger)
+
+            SchemaUtils.create(
+                UserTable
+            )
+        }
+    }
 
     private fun getHikariDataSource(): HikariDataSource {
         println("DB URL: $dbUrl")
@@ -27,6 +45,7 @@ object DatabaseFactory {
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
         config.validate()
+
         return HikariDataSource(config)
     }
 }
