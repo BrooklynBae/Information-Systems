@@ -11,20 +11,23 @@ class JwtService {
 
     private val issuer = "wishlist-server"
     private val jwtSecret = System.getenv("JWT_SECRET")
-    private val algoritm = Algorithm.HMAC512(jwtSecret)
+    private val algorithm = Algorithm.HMAC512(jwtSecret)
 
     private val verifier: JWTVerifier = JWT
-        .require(algoritm)
+        .require(algorithm)
         .withIssuer(issuer)
         .build()
 
     fun generateToken(user: UserModel): String {
+
+        println("jwt secret = $jwtSecret")
+
         return JWT.create()
-            .withSubject("WIshlistAuth")
+            .withSubject("WishlistAuth")
             .withIssuer(issuer)
             .withClaim("email", user.email)
             .withExpiresAt(LocalDateTime.now().plusDays(1).toInstant(ZoneOffset.UTC))
-            .sign(algoritm)
+            .sign(algorithm)
     }
 
     fun getVerifier(): JWTVerifier = verifier

@@ -7,7 +7,7 @@ object UserTable: Table() {
     val id: Column<Int> = integer("id").autoIncrement()
     val email: Column<String> = varchar("email", 100).uniqueIndex()
     val login: Column<String> = varchar("login", 50).uniqueIndex()
-    val password: Column<String> = varchar("password", 50)
+    val password: Column<String> = varchar("password", 200)
 
     override val primaryKey: PrimaryKey = PrimaryKey(id)
 
