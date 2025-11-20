@@ -25,7 +25,7 @@ object DatabaseFactory {
         transaction {
             addLogger(StdOutSqlLogger)
 
-            SchemaUtils.create(
+            SchemaUtils.createMissingTablesAndColumns(
                 UserTable
             )
         }
