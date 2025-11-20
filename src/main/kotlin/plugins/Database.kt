@@ -1,4 +1,4 @@
-package com.example
+package com.example.plugins
 
 import com.example.data.model.tables.UserTable
 import com.typesafe.config.ConfigFactory
