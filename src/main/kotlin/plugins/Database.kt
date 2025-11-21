@@ -1,6 +1,7 @@
 package com.example.plugins
 
 import com.example.data.model.tables.ItemTable
+import com.example.data.model.tables.ListTable
 import com.example.data.model.tables.UserTable
 import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
@@ -29,7 +30,7 @@ object DatabaseFactory {
             addLogger(StdOutSqlLogger)
 
             SchemaUtils.create(
-                UserTable, ItemTable
+                UserTable, ItemTable, ListTable
             )
         }
     }
