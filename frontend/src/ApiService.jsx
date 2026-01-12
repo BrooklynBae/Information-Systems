@@ -17,7 +17,6 @@ const ApiService = () => {
       const config = {
         ...options,
         headers: {
-          // Если отправляем FormData — браузер сам выставит multipart boundary
           ...(isFormData ? {} : { "Content-Type": "application/json" }),
 
           // JWT из localStorage
