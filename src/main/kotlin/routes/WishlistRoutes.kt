@@ -98,7 +98,6 @@ fun Route.wishlistRoutes(
                 return@put
             }
 
-            // проверить, что список принадлежит пользователю
             val existing = listUseCase.getListById(id, userId)
             if (existing == null) {
                 call.respond(HttpStatusCode.NotFound, mapOf("message" to "Wishlist not found"))

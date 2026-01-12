@@ -60,8 +60,8 @@ function WishlistDashboard() {
     return (
         <div className="dashboard">
             <header className="dashboard-header">
-                <h1>Мои вишлисты</h1>
-                <p>Создавайте и управляйте своими списками желаний</p>
+                <h1>Wishlisty</h1>
+                <p>Управляйте своими списками желаний</p>
             </header>
 
             <form className="create-form" onSubmit={createWishlist}>
@@ -104,7 +104,7 @@ function WishlistDashboard() {
                                 className="delete-btn"
                                 onClick={() => deleteWishlist(wishlist.id)}
                             >
-                                Удалить
+                                🗑️
                             </button>
                         </div>
                     </div>
