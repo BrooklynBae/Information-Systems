@@ -29,33 +29,30 @@ fun Route.publicBrowseRoutes(
     reservationRepo: ReservationRepository,
     contributionRepo: ContributionRepository
 ) {
+
+    get("/api/users/{login}") {
+        val login = call.parameters["login"] ?: ""
+        val user = userRepo.getUserByLogin(login)
+        if (user == null) {
+            call.respond(HttpStatusCode.NotFound, mapOf("message" to "User not found"))
+            return@get
+        }
+        call.respond(UserPublicDto(user.id, user.login))
+    }
+
+    get("/api/users/{login}/wishlists") {
+        val login = call.parameters["login"] ?: ""
+        val owner = userRepo.getUserByLogin(login)
+        if (owner == null) {
+            call.respond(HttpStatusCode.NotFound, mapOf("message" to "User not found"))
+            return@get
+        }
+        val lists = listUseCase.getAllOwnersLists(owner.id)
+            .map { WishlistPublicResponse(it.id, it.name, it.description) }
+        call.respond(lists)
+    }
+
     authenticate("jwt") {
-
-        // 1) Проверка пользователя по login
-        get("/api/users/{login}") {
-            val login = call.parameters["login"] ?: ""
-            val user = userRepo.getUserByLogin(login)
-            if (user == null) {
-                call.respond(HttpStatusCode.NotFound, mapOf("message" to "User not found"))
-                return@get
-            }
-            call.respond(UserPublicDto(user.id, user.login))
-        }
-
-        // 2) Read-only: вишлисты пользователя по login (DTO, без mapOf)
-        get("/api/users/{login}/wishlists") {
-            val login = call.parameters["login"] ?: ""
-            val owner = userRepo.getUserByLogin(login)
-            if (owner == null) {
-                call.respond(HttpStatusCode.NotFound, mapOf("message" to "User not found"))
-                return@get
-            }
-
-            val lists = listUseCase.getAllOwnersLists(owner.id)
-                .map { WishlistPublicResponse(it.id, it.name, it.description) }
-
-            call.respond(lists)
-        }
 
         // 3) Read-only: айтемы конкретного вишлиста пользователя + бронь/взносы
         get("/api/users/{login}/wishlists/{listId}/items") {
