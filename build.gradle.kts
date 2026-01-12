@@ -16,6 +16,10 @@ repositories {
 }
 
 dependencies {
+
+    implementation("io.ktor:ktor-server-cors-jvm:2.3.7")
+    implementation("org.mindrot:jbcrypt:0.4")
+
     // Ktor Core
     implementation("io.ktor:ktor-server-core-jvm:2.3.7")
     implementation("io.ktor:ktor-server-netty-jvm:2.3.7")
@@ -39,4 +43,8 @@ dependencies {
     // Testing
     testImplementation("io.ktor:ktor-server-tests-jvm:2.3.7")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
+
+    //s3
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
+    implementation("io.minio:minio:8.5.7")
 }

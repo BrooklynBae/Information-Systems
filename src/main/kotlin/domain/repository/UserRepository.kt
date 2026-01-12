@@ -5,6 +5,7 @@ import com.example.data.model.UserModel
 interface UserRepository {
 
     suspend fun getUserByEmail(email: String): UserModel?
+    suspend fun getUserByLogin(login: String): UserModel?
 
     suspend fun insertUser(userModel: UserModel)
 }

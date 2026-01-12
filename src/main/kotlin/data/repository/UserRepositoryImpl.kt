@@ -18,6 +18,14 @@ class UserRepositoryImpl: UserRepository {
         }
     }
 
+    override suspend fun getUserByLogin(login: String): UserModel? {
+        return dbQuery {
+            UserTable.select { UserTable.login.eq(login) }
+                .map { rowToUser(it) }
+                .singleOrNull()
+        }
+    }
+
     override suspend fun insertUser(userModel: UserModel) {
         println("inserting user..")
         return dbQuery {
@@ -29,7 +37,8 @@ class UserRepositoryImpl: UserRepository {
                 }
                 println("user inserted")
             } catch (e: Exception) {
-                println("user not inserted")
+                println("user not inserted: ${e.message}")
+                e.printStackTrace()   // <- вот это добавь
                 throw e
             }
         }
