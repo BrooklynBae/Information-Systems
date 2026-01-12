@@ -6,7 +6,6 @@ import "./WishlistPage.css";
 function WishlistPage() {
     const { id } = useParams();
     const navigate = useNavigate();
-
     const api = useMemo(() => ApiService(), []);
 
     const [wishlist, setWishlist] = useState(null);
@@ -90,7 +89,7 @@ function WishlistPage() {
         <div className="wishlist-page">
             <header className="wishlist-header">
                 <button className="back-btn" onClick={() => navigate("/dashboard")}>
-                    Назад к вишлистам
+                    ← Назад
                 </button>
                 <h1>{wishlist.name}</h1>
             </header>
@@ -109,7 +108,7 @@ function WishlistPage() {
                 />
                 <input
                     type="number"
-                    placeholder="Цена в центах (опционально)"
+                    placeholder="Цена в ₽ (опционально)"
                     value={newItem.priceCents}
                     onChange={(e) => setNewItem({ ...newItem, priceCents: e.target.value })}
                 />
@@ -121,31 +120,41 @@ function WishlistPage() {
                     />
                     Можно делить оплату
                 </label>
-                <button type="submit">Добавить желание</button>
+                <button type="submit" className="add-btn">Добавить</button>
             </form>
+
 
             <div className="items-list">
                 {items.length === 0 ? (
-                    <div className="no-items">Нет желаний 😢 Добавьте новое!</div>
+                    <div className="empty-message">Нет желаний 😢 Добавьте новое!</div>
                 ) : (
                     items.map((item) => (
                         <div key={item.id} className="item-card">
                             {editingId === item.id ? (
                                 <form onSubmit={saveEdit} className="edit-form">
-                                    <input
-                                        value={editForm.name}
-                                        onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                                        required
-                                    />
-                                    <input
-                                        value={editForm.link || ""}
-                                        onChange={(e) => setEditForm({ ...editForm, link: e.target.value })}
-                                    />
-                                    <input
-                                        type="number"
-                                        value={editForm.priceCents || ""}
-                                        onChange={(e) => setEditForm({ ...editForm, priceCents: e.target.value })}
-                                    />
+                                    <label>
+                                        Название желания
+                                        <input
+                                            value={editForm.name}
+                                            onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                                            required
+                                        />
+                                    </label>
+                                    <label>
+                                        Ссылка
+                                        <input
+                                            value={editForm.link || ""}
+                                            onChange={(e) => setEditForm({ ...editForm, link: e.target.value })}
+                                        />
+                                    </label>
+                                    <label>
+                                        Цена в ₽
+                                        <input
+                                            type="number"
+                                            value={editForm.priceCents || ""}
+                                            onChange={(e) => setEditForm({ ...editForm, priceCents: e.target.value })}
+                                        />
+                                    </label>
                                     <label>
                                         <input
                                             type="checkbox"
@@ -159,25 +168,26 @@ function WishlistPage() {
                                         <button type="button" onClick={cancelEdit}>Отмена</button>
                                     </div>
                                 </form>
+
                             ) : (
-                                <React.Fragment key={`content-${item.id}`}>
+                                <>
                                     <div className="item-content">
                                         <h3>{item.name}</h3>
                                         {item.link && (
-                                            <a href={item.link} target="_blank" rel="noopener noreferrer">
-                                                Перейти
-                                            </a>
+                                            <a href={item.link} target="_blank" rel="noopener noreferrer">Перейти</a>
                                         )}
                                         {item.priceCents > 0 && (
-                                            <div className="item-price">💰 {(item.priceCents / 100).toFixed(2)} ₽</div>
+                                            <div className="item-price">
+                                                💰 {new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(item.priceCents / 100)}
+                                            </div>
                                         )}
-                                        {item.isDivisible && <div className="item-divisible">Можно разделить сумму</div>}
+                                        {item.isDivisible && <div className="item-divisible">Можно разделить</div>}
                                     </div>
                                     <div className="item-actions">
-                                        <button onClick={() => startEdit(item)}>✏️</button>
-                                        <button onClick={() => deleteItem(item.id)}>🗑️</button>
+                                        <button className="edit-btn" onClick={() => startEdit(item)}>✏️</button>
+                                        <button className="delete-btn" onClick={() => deleteItem(item.id)}>🗑️</button>
                                     </div>
-                                </React.Fragment>
+                                </>
                             )}
                         </div>
                     ))
