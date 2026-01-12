@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ApiService from "../ApiService";
-import "./WishlistDashboard.css";
+import "./WishlistPage.css";
 
 function WishlistPage() {
     const { id } = useParams();
@@ -11,16 +11,17 @@ function WishlistPage() {
     const [newItem, setNewItem] = useState({ name: "", url: "", price: "", comment: "" });
     const [editingId, setEditingId] = useState(null);
     const [editForm, setEditForm] = useState({});
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [menuOpenId, setMenuOpenId] = useState(null); // для меню трех точек
     const api = ApiService();
 
-    // Fetch wishlist and items
     useEffect(() => {
         const fetchWishlist = async () => {
             try {
                 const wishlistData = await api.getWishlist(id);
                 setWishlist(wishlistData);
 
-                const itemsData = await api.getWishlistItems(id);
+                const itemsData = await api.getWishlistItem(id);
                 setItems(itemsData || []);
             } catch (err) {
                 console.error(err);
@@ -31,6 +32,8 @@ function WishlistPage() {
         if (id) fetchWishlist();
     }, [id, api, navigate]);
 
+    const toggleAddForm = () => setShowAddForm(prev => !prev);
+
     const addItem = async (e) => {
         e.preventDefault();
         if (!newItem.name.trim()) return;
@@ -39,6 +42,7 @@ function WishlistPage() {
             const item = await api.createWishlistItem(id, newItem);
             setItems(prev => [item, ...prev]);
             setNewItem({ name: "", url: "", price: "", comment: "" });
+            setShowAddForm(false);
         } catch (err) {
             console.error("Ошибка добавления:", err);
         }
@@ -56,6 +60,7 @@ function WishlistPage() {
     const startEdit = (item) => {
         setEditingId(item.id);
         setEditForm({ ...item });
+        setMenuOpenId(null);
     };
 
     const saveEdit = async (e) => {
@@ -80,76 +85,87 @@ function WishlistPage() {
     return (
         <div className="wishlist-page">
             <header className="wishlist-header">
-                <button className="back-btn" onClick={() => navigate("/dashboard")}>
-                    Назад к вишлистам
-                </button>
+                <button className="back-btn" onClick={() => navigate("/dashboard")}>Назад</button>
                 <h1>{wishlist.name}</h1>
+                <button className="add-btn" onClick={toggleAddForm}>＋</button>
             </header>
 
-            <form className="add-item-form" onSubmit={addItem}>
-                <input
-                    placeholder="Название желания"
-                    value={newItem.name}
-                    onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                    required
-                />
-                <input
-                    placeholder="Ссылка (опционально)"
-                    value={newItem.url}
-                    onChange={(e) => setNewItem({ ...newItem, url: e.target.value })}
-                />
-                <input
-                    placeholder="Цена (опционально)"
-                    value={newItem.price}
-                    onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-                />
-                <button type="submit">Добавить желание</button>
-            </form>
+            {showAddForm && (
+                <form className="add-item-form" onSubmit={addItem}>
+                    <input
+                        placeholder="Название желания"
+                        value={newItem.name}
+                        onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+                        required
+                    />
+                    <input
+                        placeholder="Ссылка (опционально)"
+                        value={newItem.url}
+                        onChange={(e) => setNewItem({...newItem, url: e.target.value})}
+                    />
+                    <input
+                        placeholder="Цена (опционально)"
+                        value={newItem.price}
+                        onChange={(e) => setNewItem({...newItem, price: e.target.value})}
+                    />
+                    <button type="submit">Добавить</button>
+                </form>
+            )}
 
             <div className="items-list">
-                {items.map((item) => (
-                    <div key={item.id} className="item-card">
-                        {editingId === item.id ? (
-                            <form onSubmit={saveEdit} className="edit-form">
-                                <input
-                                    value={editForm.name}
-                                    onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                                    required
-                                />
-                                <input
-                                    value={editForm.url || ""}
-                                    onChange={(e) => setEditForm({ ...editForm, url: e.target.value })}
-                                />
-                                <input
-                                    value={editForm.price || ""}
-                                    onChange={(e) => setEditForm({ ...editForm, price: e.target.value })}
-                                />
-                                <div className="edit-actions">
-                                    <button type="submit">Сохранить</button>
-                                    <button type="button" onClick={cancelEdit}>Отмена</button>
+                {items.length === 0 ? (
+                    <div className="empty-message">У вас пока нет подарков :(</div>
+                ) : (
+                    items.map(item => (
+                        <div key={item.id} className="item-card">
+                            {editingId === item.id ? (
+                                <form onSubmit={saveEdit} className="edit-form">
+                                    <input
+                                        value={editForm.name}
+                                        onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                                        required
+                                    />
+                                    <input
+                                        value={editForm.url || ""}
+                                        onChange={(e) => setEditForm({...editForm, url: e.target.value})}
+                                    />
+                                    <input
+                                        value={editForm.price || ""}
+                                        onChange={(e) => setEditForm({...editForm, price: e.target.value})}
+                                    />
+                                    <div className="edit-actions">
+                                        <button type="submit">Сохранить</button>
+                                        <button type="button" onClick={cancelEdit}>Отмена</button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className="item-row">
+                                    <div className="item-info">
+                                        <h3>{item.name}</h3>
+                                        {item.url &&
+                                            <a href={item.url} target="_blank" rel="noopener noreferrer">Перейти</a>}
+                                        {item.price && <div className="item-price">💰 {item.price}</div>}
+                                        {item.comment && <div className="item-comment">{item.comment}</div>}
+                                    </div>
+
+                                    <div className="item-menu">
+                                        <button
+                                            onClick={() => setMenuOpenId(menuOpenId === item.id ? null : item.id)}>⋯
+                                        </button>
+                                        {menuOpenId === item.id && (
+                                            <div className="menu-dropdown">
+                                                <button onClick={() => startEdit(item)}>Редактировать</button>
+                                                <button onClick={() => deleteItem(item.id)}>Удалить</button>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            </form>
-                        ) : (
-                            <>
-                                <div className="item-content">
-                                    <h3>{item.name}</h3>
-                                    {item.url && (
-                                        <a href={item.url} target="_blank" rel="noopener noreferrer">
-                                            Перейти
-                                        </a>
-                                    )}
-                                    {item.price && <div className="item-price">💰 {item.price}</div>}
-                                    {item.comment && <div className="item-comment">{item.comment}</div>}
-                                </div>
-                                <div className="item-actions">
-                                    <button onClick={() => startEdit(item)}>✏️</button>
-                                    <button onClick={() => deleteItem(item.id)}>🗑️</button>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                ))}
+                            )}
+                        </div>
+                    ))
+                )}
             </div>
+
         </div>
     );
 }
