@@ -10,4 +10,3 @@ data class UpdateWishlistRequest(val id: Int, val name: String, val description:
 
 @Serializable
 data class WishlistResponse(val id: Int, val name: String, val description: String)
-

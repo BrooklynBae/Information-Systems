@@ -74,7 +74,7 @@ fun Route.wishlistRoutes(
 
             val req = call.receive<CreateWishlistRequest>()
             if (req.name.isBlank()) {
-                call.respond(HttpStatusCode.BadRequest, mapOf("message" to "Name is required"))
+                call.respond(HttpStatusCode.BadRequest, mapOf("message"   to "Name is required"))
                 return@post
             }
 
