@@ -104,7 +104,7 @@ function WishlistDashboard() {
                                 className="delete-btn"
                                 onClick={() => deleteWishlist(wishlist.id)}
                             >
-                                Удалить
+                                🗑️
                             </button>
                         </div>
                     </div>
