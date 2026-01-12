@@ -30,7 +30,10 @@ function WishlistDashboard() {
 
         try {
             setLoading(true);
-            const wishlist = await api.createWishlist({ name: newWishlistName.trim() });
+            const wishlist = await api.createWishlist({
+                name: newWishlistName.trim(),
+                description: "Подарки"
+            });
             setWishlists([wishlist, ...wishlists]);
             setNewWishlistName("");
         } catch (err) {
@@ -39,6 +42,7 @@ function WishlistDashboard() {
             setLoading(false);
         }
     };
+
 
     const deleteWishlist = async (wishlistId) => {
         try {

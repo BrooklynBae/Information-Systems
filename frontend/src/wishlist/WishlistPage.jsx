@@ -13,22 +13,23 @@ function WishlistPage() {
     const [editForm, setEditForm] = useState({});
     const api = ApiService();
 
+    // Fetch wishlist and items
     useEffect(() => {
-        if (id) {
-            fetchWishlist();
-        }
-    }, [id]);
+        const fetchWishlist = async () => {
+            try {
+                const wishlistData = await api.getWishlist(id);
+                setWishlist(wishlistData);
 
-    const fetchWishlist = async () => {
-        try {
-            const data = await api.getWishlist(id);
-            setWishlist(data.wishlist);
-            setItems(data.items || []);
-        } catch (err) {
-            console.error("Ошибка загрузки вишлиста:", err);
-            navigate("/dashboard");
-        }
-    };
+                const itemsData = await api.getWishlistItems(id);
+                setItems(itemsData || []);
+            } catch (err) {
+                console.error(err);
+                navigate("/dashboard");
+            }
+        };
+
+        if (id) fetchWishlist();
+    }, [id, api, navigate]);
 
     const addItem = async (e) => {
         e.preventDefault();
@@ -36,7 +37,7 @@ function WishlistPage() {
 
         try {
             const item = await api.createWishlistItem(id, newItem);
-            setItems([item, ...items]);
+            setItems(prev => [item, ...prev]);
             setNewItem({ name: "", url: "", price: "", comment: "" });
         } catch (err) {
             console.error("Ошибка добавления:", err);
@@ -46,7 +47,7 @@ function WishlistPage() {
     const deleteItem = async (itemId) => {
         try {
             await api.deleteWishlistItem(id, itemId);
-            setItems(items.filter(item => item.id !== itemId));
+            setItems(prev => prev.filter(item => item.id !== itemId));
         } catch (err) {
             console.error("Ошибка удаления:", err);
         }
@@ -61,7 +62,7 @@ function WishlistPage() {
         e.preventDefault();
         try {
             const updatedItem = await api.updateWishlistItem(id, editingId, editForm);
-            setItems(items.map(item => item.id === editingId ? updatedItem : item));
+            setItems(prev => prev.map(item => item.id === editingId ? updatedItem : item));
             setEditingId(null);
             setEditForm({});
         } catch (err) {
@@ -74,9 +75,7 @@ function WishlistPage() {
         setEditForm({});
     };
 
-    if (!wishlist) {
-        return <div className="loading">Загрузка...</div>;
-    }
+    if (!wishlist) return <div className="loading">Загрузка...</div>;
 
     return (
         <div className="wishlist-page">
@@ -135,7 +134,7 @@ function WishlistPage() {
                                 <div className="item-content">
                                     <h3>{item.name}</h3>
                                     {item.url && (
-                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="item-link">
+                                        <a href={item.url} target="_blank" rel="noopener noreferrer">
                                             Перейти
                                         </a>
                                     )}
@@ -143,8 +142,8 @@ function WishlistPage() {
                                     {item.comment && <div className="item-comment">{item.comment}</div>}
                                 </div>
                                 <div className="item-actions">
-                                    <button onClick={() => startEdit(item)} className="edit-btn">✏️</button>
-                                    <button onClick={() => deleteItem(item.id)} className="delete-btn">🗑️</button>
+                                    <button onClick={() => startEdit(item)}>✏️</button>
+                                    <button onClick={() => deleteItem(item.id)}>🗑️</button>
                                 </div>
                             </>
                         )}
