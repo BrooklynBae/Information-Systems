@@ -53,7 +53,6 @@ fun Route.publicBrowseRoutes(
     }
 
     authenticate("jwt") {
-
         // 3) Read-only: айтемы конкретного вишлиста пользователя + бронь/взносы
         get("/api/users/{login}/wishlists/{listId}/items") {
             val viewerId = call.currentUserId(userRepo)
