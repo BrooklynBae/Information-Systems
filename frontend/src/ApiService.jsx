@@ -72,6 +72,16 @@ const ApiService = () => {
   // ================= SEARCH =================
   const searchWishlists = (query) => request(`/wishlists/search?q=${encodeURIComponent(query)}`);
 
+  // ================= USERS PUBLIC =================
+  const getUser = (login) => request(`/users/${login}`);
+  const getUserWishlists = (login) => request(`/users/${login}/wishlists`);
+
+
+  // ================= RESERVATIONS =================
+  const reserveItem = (itemId) => request(`/items/${itemId}/reserve`, { method: "POST" }); // эндпоинт бронирования
+  const contributeToItem = (itemId, amountCents) =>
+      request(`/items/${itemId}/contribute`, { method: "POST", body: JSON.stringify({ amountCents }) });
+
   return {
     // AUTH
     login,
@@ -107,6 +117,13 @@ const ApiService = () => {
 
     // SEARCH
     searchWishlists,
+
+    // USERS PUBLIC
+    getUser,
+    getUserWishlists,
+
+    reserveItem,
+    contributeToItem
   };
 };
 

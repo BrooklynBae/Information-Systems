@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../ApiService";
 import "./WishlistDashboard.css";
+import BrowsePage from "../browsePage/BrowsePage";
 
 function WishlistDashboard() {
     const [wishlists, setWishlists] = useState([]);
@@ -60,6 +61,9 @@ function WishlistDashboard() {
     return (
         <div className="dashboard">
             <header className="dashboard-header">
+                <section className="browse-section">
+                    <BrowsePage/>
+                </section>
                 <h1>Wishlisty</h1>
                 <p>Управляйте своими списками желаний</p>
             </header>
