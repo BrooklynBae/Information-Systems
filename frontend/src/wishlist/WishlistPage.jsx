@@ -21,12 +21,11 @@ function WishlistPage() {
     const [editForm, setEditForm] = useState({});
 
     useEffect(() => {
-        const fetchWishlist = async () => {
+        const fetchWishlistAndItems = async () => {
             try {
                 const wishlistData = await api.getWishlist(id);
-                setWishlist(wishlistData);
-
                 const itemsData = await api.getWishlistItem(id);
+                setWishlist(wishlistData);
                 setItems(itemsData || []);
             } catch (err) {
                 console.error("Ошибка загрузки:", err);
@@ -34,10 +33,9 @@ function WishlistPage() {
             }
         };
 
-        if (id) fetchWishlist();
+        if (id) fetchWishlistAndItems();
     }, [id, navigate, api]);
 
-    // Добавление нового айтема
     const addItem = async (e) => {
         e.preventDefault();
         if (!newItem.name.trim()) return;
@@ -55,7 +53,6 @@ function WishlistPage() {
         }
     };
 
-    // Удаление айтема
     const deleteItem = async (itemId) => {
         try {
             await api.deleteWishlistItem(id, itemId);
@@ -65,7 +62,6 @@ function WishlistPage() {
         }
     };
 
-    // Редактирование
     const startEdit = (item) => {
         setEditingId(item.id);
         setEditForm({ ...item });
@@ -88,7 +84,6 @@ function WishlistPage() {
         setEditForm({});
     };
 
-    // ✅ Рендерим загрузку
     if (!wishlist) return <div className="loading">Загрузка вишлиста...</div>;
 
     return (
@@ -165,7 +160,7 @@ function WishlistPage() {
                                     </div>
                                 </form>
                             ) : (
-                                <>
+                                <React.Fragment key={`content-${item.id}`}>
                                     <div className="item-content">
                                         <h3>{item.name}</h3>
                                         {item.link && (
@@ -182,7 +177,7 @@ function WishlistPage() {
                                         <button onClick={() => startEdit(item)}>✏️</button>
                                         <button onClick={() => deleteItem(item.id)}>🗑️</button>
                                     </div>
-                                </>
+                                </React.Fragment>
                             )}
                         </div>
                     ))

@@ -1,28 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../ApiService";
 import "./WishlistDashboard.css";
-
 
 function WishlistDashboard() {
     const [wishlists, setWishlists] = useState([]);
     const [newWishlistName, setNewWishlistName] = useState("");
     const [loading, setLoading] = useState(false);
-    const api = ApiService();
+
     const navigate = useNavigate();
+    const api = useMemo(() => ApiService(), []);
 
+    // Один fetch всех вишлистов
     useEffect(() => {
-        fetchWishlists();
-    }, []);
+        const fetchWishlists = async () => {
+            try {
+                const data = await api.getWishlists();
+                setWishlists(data || []);
+            } catch (err) {
+                console.error("Ошибка загрузки вишлистов:", err);
+            }
+        };
 
-    const fetchWishlists = async () => {
-        try {
-            const data = await api.getWishlists();
-            setWishlists(data || []);
-        } catch (err) {
-            console.error("Ошибка загрузки вишлистов:", err);
-        }
-    };
+        fetchWishlists();
+    }, [api]);
 
     const createWishlist = async (e) => {
         e.preventDefault();
@@ -34,7 +35,7 @@ function WishlistDashboard() {
                 name: newWishlistName.trim(),
                 description: "Подарки"
             });
-            setWishlists([wishlist, ...wishlists]);
+            setWishlists(prev => [wishlist, ...prev]);
             setNewWishlistName("");
         } catch (err) {
             console.error("Ошибка создания вишлиста:", err);
@@ -43,11 +44,10 @@ function WishlistDashboard() {
         }
     };
 
-
     const deleteWishlist = async (wishlistId) => {
         try {
             await api.deleteWishlist(wishlistId);
-            setWishlists(wishlists.filter(w => w.id !== wishlistId));
+            setWishlists(prev => prev.filter(w => w.id !== wishlistId));
         } catch (err) {
             console.error("Ошибка удаления вишлиста:", err);
         }
@@ -88,8 +88,8 @@ function WishlistDashboard() {
                                 <span className="items-count">{wishlist.itemsCount || 0} желаний</span>
                                 {wishlist.updatedAt && (
                                     <span className="updated-at">
-                    Обновлён: {new Date(wishlist.updatedAt).toLocaleDateString()}
-                  </span>
+                                        Обновлён: {new Date(wishlist.updatedAt).toLocaleDateString()}
+                                    </span>
                                 )}
                             </div>
                         </div>
