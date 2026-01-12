@@ -1,9 +1,6 @@
 package com.example.plugins
 
-import com.example.data.model.tables.ItemSelections
-import com.example.data.model.tables.ItemTable
-import com.example.data.model.tables.ListTable
-import com.example.data.model.tables.UserTable
+import com.example.data.model.tables.*
 import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -30,13 +27,12 @@ object DatabaseFactory {
         transaction {
             addLogger(StdOutSqlLogger)
 
-            SchemaUtils.drop(ItemSelections, ItemTable)
-
             SchemaUtils.create(
                 UserTable,
                 ListTable,
                 ItemTable,
-                ItemSelections
+                ItemSelections,
+                ItemContributions
             )
         }
     }
