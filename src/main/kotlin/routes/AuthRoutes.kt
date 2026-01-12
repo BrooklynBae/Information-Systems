@@ -35,7 +35,7 @@ fun Route.authRoutes(userUseCase: UserUseCase) {
                 UserModel(id = 0, email = req.email, login = req.login, password = hashed)
             )
 
-            val created = userUseCase.findUserByEmail(req.email)!! // после insert
+            val created = userUseCase.findUserByEmail(req.email)!!
 
             val token = userUseCase.generateToken(created)
 
@@ -47,7 +47,6 @@ fun Route.authRoutes(userUseCase: UserUseCase) {
             )
         }
 
-        // Логинимся по login (не по email) — чтобы совпадало с фронтом
         post("/login") {
             val req = call.receive<Map<String, String>>() // чтобы не переделывать форму сразу
             val login = req["login"] ?: ""

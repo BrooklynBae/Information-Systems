@@ -17,7 +17,7 @@ function WishlistDashboard() {
 
     const fetchWishlists = async () => {
         try {
-            const data = await api.getWishlists();
+            const data = await api.getWishlists(1);
             setWishlists(data || []);
         } catch (err) {
             console.error("Ошибка загрузки вишлистов:", err);
