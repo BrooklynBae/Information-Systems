@@ -6,14 +6,16 @@ import kotlinx.serialization.Serializable
 data class CreateItemRequest(
     val name: String,
     val link: String = "",
-    val isDivisible: Boolean = false
+    val isDivisible: Boolean = false,
+    val priceCents: Long = 0
 )
 
 @Serializable
 data class UpdateItemRequest(
     val name: String,
     val link: String = "",
-    val isDivisible: Boolean = false
+    val isDivisible: Boolean = false,
+    val priceCents: Long = 0
 )
 
 @Serializable
@@ -22,5 +24,6 @@ data class ItemResponse(
     val name: String,
     val link: String,
     val isDivisible: Boolean,
+    val priceCents: Long,
     val parentListId: Int
 )

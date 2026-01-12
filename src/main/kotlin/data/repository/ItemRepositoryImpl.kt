@@ -15,6 +15,7 @@ class ItemRepositoryImpl: ItemRepository {
                 it[name] = item.name
                 it[link] = item.link
                 it[isDivisible] = item.isDivisible
+                it[priceCents] = item.priceCents
                 it[parentListId] = item.parentListId
             } get ItemTable.id
         }
@@ -41,6 +42,7 @@ class ItemRepositoryImpl: ItemRepository {
                 table[name] = item.name
                 table[link] = item.link
                 table[isDivisible] = item.isDivisible
+                table[priceCents] = item.priceCents
             }
         }
     }
@@ -61,6 +63,7 @@ class ItemRepositoryImpl: ItemRepository {
             name = row[ItemTable.name],
             link = row[ItemTable.link],
             isDivisible = row[ItemTable.isDivisible],
+            priceCents = row[ItemTable.priceCents],
             parentListId = row[ItemTable.parentListId]
         )
     }

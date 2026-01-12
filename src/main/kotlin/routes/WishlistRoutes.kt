@@ -159,7 +159,7 @@ fun Route.wishlistRoutes(
             }
 
             val items = itemUseCase.getAllWishlistItems(listId)
-                .map { ItemResponse(it.id, it.name, it.link, it.isDivisible, it.parentListId) }
+                .map { ItemResponse(it.id, it.name, it.link, it.isDivisible, it.priceCents, it.parentListId) }
 
             call.respond(items)
         }
@@ -190,6 +190,7 @@ fun Route.wishlistRoutes(
                     name = req.name,
                     link = req.link,
                     isDivisible = req.isDivisible,
+                    priceCents = req.priceCents,
                     parentListId = listId
                 )
             )
@@ -224,6 +225,7 @@ fun Route.wishlistRoutes(
                     name = req.name,
                     link = req.link,
                     isDivisible = req.isDivisible,
+                    priceCents = req.priceCents,
                     parentListId = listId
                 ),
                 parentListId = listId

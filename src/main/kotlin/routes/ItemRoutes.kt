@@ -51,7 +51,7 @@ fun Route.itemRoutes(
             }
 
             val items = itemUseCase.getAllWishlistItems(listId)
-                .map { ItemResponse(it.id, it.name, it.link, it.isDivisible, it.parentListId) }
+                .map { ItemResponse(it.id, it.name, it.link, it.isDivisible, it.priceCents, it.parentListId) } // ✅
 
             call.respond(items)
         }
@@ -88,19 +88,14 @@ fun Route.itemRoutes(
                     name = req.name,
                     link = req.link,
                     isDivisible = req.isDivisible,
+                    priceCents = req.priceCents,
                     parentListId = listId
                 )
             )
 
             call.respond(
                 HttpStatusCode.Created,
-                ItemResponse(
-                    id = newId,
-                    name = req.name,
-                    link = req.link,
-                    isDivisible = req.isDivisible,
-                    parentListId = listId
-                )
+                ItemResponse(newId, req.name, req.link, req.isDivisible, req.priceCents, listId) // ✅
             )
         }
 
@@ -137,6 +132,7 @@ fun Route.itemRoutes(
                     name = req.name,
                     link = req.link,
                     isDivisible = req.isDivisible,
+                    priceCents = req.priceCents,
                     parentListId = listId
                 ),
                 parentListId = listId
@@ -144,13 +140,7 @@ fun Route.itemRoutes(
 
             call.respond(
                 HttpStatusCode.OK,
-                ItemResponse(
-                    id = itemId,
-                    name = req.name,
-                    link = req.link,
-                    isDivisible = req.isDivisible,
-                    parentListId = listId
-                )
+                ItemResponse(itemId, req.name, req.link, req.isDivisible, req.priceCents, listId) // ✅
             )
         }
 

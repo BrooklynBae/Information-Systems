@@ -8,6 +8,7 @@ object ItemTable : Table() {
     val name: Column<String> = varchar("name", 100)
     val link: Column<String> = varchar("link", 33000)
     val isDivisible: Column<Boolean> = bool("is_divisible")
+    val priceCents: Column<Long> = long("price_cents").default(0)
     val parentListId: Column<Int> = integer("parent_list_id").references(ListTable.id)
 
     override val primaryKey: PrimaryKey = PrimaryKey(id)
