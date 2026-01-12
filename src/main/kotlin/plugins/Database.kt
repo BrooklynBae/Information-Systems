@@ -1,5 +1,6 @@
 package com.example.plugins
 
+import com.example.data.model.tables.ItemSelections
 import com.example.data.model.tables.ItemTable
 import com.example.data.model.tables.ListTable
 import com.example.data.model.tables.UserTable
@@ -30,7 +31,10 @@ object DatabaseFactory {
             addLogger(StdOutSqlLogger)
 
             SchemaUtils.create(
-                UserTable, ItemTable, ListTable
+                UserTable,
+                ListTable,
+                ItemTable,
+                ItemSelections
             )
         }
     }
@@ -40,22 +44,22 @@ object DatabaseFactory {
         println("DB USER: $dbUser")
         println("DB PASSWORD: $dbPassword")
 
-        val config = HikariConfig()
-        config.driverClassName = "org.postgresql.Driver"
-        config.jdbcUrl = dbUrl
-        config.username = dbUser
-        config.password = dbPassword
-        config.maximumPoolSize = 3
-        config.isAutoCommit = false
-        config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-        config.validate()
+        val config = HikariConfig().apply {
+            driverClassName = "org.postgresql.Driver"
+            jdbcUrl = dbUrl
+            username = dbUser
+            password = dbPassword
+            maximumPoolSize = 3
+            isAutoCommit = false
+            transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+            validate()
+        }
 
         return HikariDataSource(config)
     }
 
-    suspend fun <T> dbQuery(block: () -> T): T {
-        return withContext(Dispatchers.IO) {
+    suspend fun <T> dbQuery(block: () -> T): T =
+        withContext(Dispatchers.IO) {
             transaction { block() }
         }
-    }
 }

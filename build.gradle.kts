@@ -16,6 +16,10 @@ repositories {
 }
 
 dependencies {
+
+    implementation("io.ktor:ktor-server-cors-jvm:2.3.7")
+    implementation("org.mindrot:jbcrypt:0.4")
+
     // Ktor Core
     implementation("io.ktor:ktor-server-core-jvm:2.3.7")
     implementation("io.ktor:ktor-server-netty-jvm:2.3.7")

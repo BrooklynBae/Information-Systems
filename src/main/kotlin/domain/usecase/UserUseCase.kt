@@ -12,5 +12,7 @@ class UserUseCase(
 
     suspend fun findUserByEmail(email: String) = repositoryImpl.getUserByEmail(email = email)
 
+    suspend fun findUserByLogin(login: String) = repositoryImpl.getUserByLogin(login)
+
     fun generateToken(userModel: UserModel): String = jwtService.generateToken(user = userModel)
 }
