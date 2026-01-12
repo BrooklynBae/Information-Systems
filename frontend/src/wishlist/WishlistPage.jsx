@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ApiService from "../ApiService"; // обычная функция, без хуков
-import "./WishlistPage.css";
+import ApiService from "../ApiService";
 
 function WishlistPage() {
     const { id } = useParams();
     const navigate = useNavigate();
-
-    // ✅ Просто создаем ApiService как объект функций
     const api = ApiService();
 
     const [wishlist, setWishlist] = useState(null);
     const [items, setItems] = useState([]);
-    const [newItem, setNewItem] = useState({
-        name: "",
-        link: "",
-        priceCents: "",
-        isDivisible: false,
-    });
-    const [editingId, setEditingId] = useState(null);
-    const [editForm, setEditForm] = useState({});
 
-    // Загрузка вишлиста и айтемов
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/login");
+            return;
+        }
+
         const fetchWishlist = async () => {
             try {
-                const wishlistData = await api.getWishlist(id);
-                setWishlist(wishlistData);
+                const w = await api.getWishlist(id);
+                setWishlist(w);
 
-                const itemsData = await api.getWishlistItem(id);
-                setItems(itemsData || []);
+                const its = await api.getWishlistItem(id);
+                setItems(its || []);
             } catch (err) {
                 console.error("Ошибка загрузки:", err);
                 navigate("/dashboard");
@@ -39,157 +33,12 @@ function WishlistPage() {
         if (id) fetchWishlist();
     }, [id, navigate, api]);
 
-    // Добавление нового айтема
-    const addItem = async (e) => {
-        e.preventDefault();
-        if (!newItem.name.trim()) return;
-
-        try {
-            const itemToSend = {
-                ...newItem,
-                priceCents: newItem.priceCents ? parseInt(newItem.priceCents, 10) : 0,
-            };
-            const item = await api.createWishlistItem(id, itemToSend);
-            setItems(prev => [item, ...prev]);
-            setNewItem({ name: "", link: "", priceCents: "", isDivisible: false });
-        } catch (err) {
-            console.error("Ошибка добавления:", err);
-        }
-    };
-
-    // Удаление айтема
-    const deleteItem = async (itemId) => {
-        try {
-            await api.deleteWishlistItem(id, itemId);
-            setItems(prev => prev.filter(item => item.id !== itemId));
-        } catch (err) {
-            console.error("Ошибка удаления:", err);
-        }
-    };
-
-    // Редактирование айтема
-    const startEdit = (item) => {
-        setEditingId(item.id);
-        setEditForm({ ...item });
-    };
-
-    const saveEdit = async (e) => {
-        e.preventDefault();
-        try {
-            const updatedItem = await api.updateWishlistItem(id, editingId, editForm);
-            setItems(prev => prev.map(item => item.id === editingId ? updatedItem : item));
-            setEditingId(null);
-            setEditForm({});
-        } catch (err) {
-            console.error("Ошибка обновления:", err);
-        }
-    };
-
-    const cancelEdit = () => {
-        setEditingId(null);
-        setEditForm({});
-    };
-
-    // Рендер загрузки
-    if (!wishlist) return <div className="loading">Загрузка вишлиста...</div>;
+    if (!wishlist) return <div>Загрузка...</div>;
 
     return (
-        <div className="wishlist-page">
-            <header className="wishlist-header">
-                <button className="back-btn" onClick={() => navigate("/dashboard")}>
-                    Назад к вишлистам
-                </button>
-                <h1>{wishlist.name}</h1>
-            </header>
-
-            <form className="add-item-form" onSubmit={addItem}>
-                <input
-                    placeholder="Название желания"
-                    value={newItem.name}
-                    onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                    required
-                />
-                <input
-                    placeholder="Ссылка (опционально)"
-                    value={newItem.link}
-                    onChange={(e) => setNewItem({ ...newItem, link: e.target.value })}
-                />
-                <input
-                    type="number"
-                    placeholder="Цена в центах (опционально)"
-                    value={newItem.priceCents}
-                    onChange={(e) => setNewItem({ ...newItem, priceCents: e.target.value })}
-                />
-                <label className="checkbox-field">
-                    <input
-                        type="checkbox"
-                        checked={newItem.isDivisible}
-                        onChange={(e) => setNewItem({ ...newItem, isDivisible: e.target.checked })}
-                    />
-                    Можно делить оплату
-                </label>
-                <button type="submit">Добавить желание</button>
-            </form>
-
-            <div className="items-list">
-                {items.length === 0 ? (
-                    <div className="no-items">Нет желаний 😢 Добавьте новое!</div>
-                ) : (
-                    items.map((item) => (
-                        <div key={item.id} className="item-card">
-                            {editingId === item.id ? (
-                                <form onSubmit={saveEdit} className="edit-form">
-                                    <input
-                                        value={editForm.name}
-                                        onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                                        required
-                                    />
-                                    <input
-                                        value={editForm.link || ""}
-                                        onChange={(e) => setEditForm({ ...editForm, link: e.target.value })}
-                                    />
-                                    <input
-                                        type="number"
-                                        value={editForm.priceCents || ""}
-                                        onChange={(e) => setEditForm({ ...editForm, priceCents: e.target.value })}
-                                    />
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            checked={editForm.isDivisible || false}
-                                            onChange={(e) => setEditForm({ ...editForm, isDivisible: e.target.checked })}
-                                        />
-                                        Можно делить оплату
-                                    </label>
-                                    <div className="edit-actions">
-                                        <button type="submit">Сохранить</button>
-                                        <button type="button" onClick={cancelEdit}>Отмена</button>
-                                    </div>
-                                </form>
-                            ) : (
-                                <>
-                                    <div className="item-content">
-                                        <h3>{item.name}</h3>
-                                        {item.link && (
-                                            <a href={item.link} target="_blank" rel="noopener noreferrer">
-                                                Перейти
-                                            </a>
-                                        )}
-                                        {item.priceCents > 0 && (
-                                            <div className="item-price">💰 {(item.priceCents / 100).toFixed(2)} ₽</div>
-                                        )}
-                                        {item.isDivisible && <div className="item-divisible">Можно разделить сумму</div>}
-                                    </div>
-                                    <div className="item-actions">
-                                        <button onClick={() => startEdit(item)}>✏️</button>
-                                        <button onClick={() => deleteItem(item.id)}>🗑️</button>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    ))
-                )}
-            </div>
+        <div>
+            <h1>{wishlist.name}</h1>
+            {items.map(i => <div key={i.id}>{i.name}</div>)}
         </div>
     );
 }
