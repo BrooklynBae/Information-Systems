@@ -8,13 +8,22 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class ListRepositoryImpl: ListRepository {
-    override suspend fun addList(list: ListModel) {
-        dbQuery {
-            ListTable.insert { table ->
+    override suspend fun addList(list: ListModel): Int {
+        return dbQuery {
+            val stmt = ListTable.insert { table ->
                 table[name] = list.name
                 table[description] = list.description
                 table[owner] = list.owner
             }
+            stmt[ListTable.id]
+        }
+    }
+    override suspend fun getListById(listId: Int, ownerId: Int): ListModel? {
+        return dbQuery {
+            ListTable
+                .select { ListTable.id.eq(listId) and ListTable.owner.eq(ownerId) }
+                .mapNotNull { rowToList(it) }
+                .singleOrNull()
         }
     }
 
