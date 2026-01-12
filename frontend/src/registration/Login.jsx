@@ -22,7 +22,7 @@ function Login({ onAuth, setPage }) {
     }
 
     try {
-      const data = await api.login(form); // ожидаем { token, user }
+      const data = await api.login(form);
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       onAuth({ ...data.user, isRegistered: true });

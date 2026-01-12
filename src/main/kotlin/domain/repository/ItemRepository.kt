@@ -4,7 +4,8 @@ import com.example.data.model.ItemModel
 
 interface ItemRepository {
 
-    suspend fun addItem(item: ItemModel)
+    // возвращаем id созданного item
+    suspend fun addItem(item: ItemModel): Int
 
     suspend fun getAllWishlistItems(parentListId: Int): List<ItemModel>
 

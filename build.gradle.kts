@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
 
+    implementation("io.ktor:ktor-server-status-pages-jvm:2.3.7")
     implementation("io.ktor:ktor-server-cors-jvm:2.3.7")
     implementation("org.mindrot:jbcrypt:0.4")
 

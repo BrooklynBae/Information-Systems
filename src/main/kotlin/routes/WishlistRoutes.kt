@@ -219,7 +219,7 @@ fun Route.wishlistRoutes(
             }
 
             val req = call.receive<UpdateItemRequest>()
-            itemUseCase.updateList(
+            itemUseCase.updateItem(
                 ItemModel(
                     id = itemId,
                     name = req.name,

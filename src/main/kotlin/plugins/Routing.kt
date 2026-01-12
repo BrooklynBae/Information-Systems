@@ -8,8 +8,8 @@ import com.example.domain.usecase.ItemUseCase
 import com.example.domain.usecase.ListUseCase
 import com.example.domain.usecase.UserUseCase
 import com.example.routes.authRoutes
+import com.example.routes.itemRoutes
 import com.example.routes.profileRoutes
-import com.example.routes.wishlistRoutes
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -29,7 +29,13 @@ fun Application.configureRouting() {
         authRoutes(userUseCase)
         profileRoutes(userRepo)
 
-        wishlistRoutes(
+//        wishlistRoutes(
+//            userRepo = userRepo,
+//            listUseCase = listUseCase,
+//            itemUseCase = itemUseCase
+//        )
+
+        itemRoutes(
             userRepo = userRepo,
             listUseCase = listUseCase,
             itemUseCase = itemUseCase

@@ -16,7 +16,7 @@ function App() {
                     <Route
                         path="/dashboard"
                         element={
-                            localStorage.getItem("user") ? (
+                            localStorage.getItem("token") ? (
                                 <WishlistDashboard />
                             ) : (
                                 <Navigate to="/login" />
@@ -26,7 +26,7 @@ function App() {
                     <Route
                         path="/wishlist/:id"
                         element={
-                            localStorage.getItem("user") ? (
+                            localStorage.getItem("token") ? (
                                 <WishlistPage />
                             ) : (
                                 <Navigate to="/login" />

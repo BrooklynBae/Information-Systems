@@ -9,16 +9,17 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class ItemRepositoryImpl: ItemRepository {
 
-    override suspend fun addItem(item: ItemModel) {
-        dbQuery {
-            ItemTable.insert { table ->
-                table[name] = item.name
-                table[link] = item.link
-                table[isDivisible] = item.isDivisible
-                table[parentListId] = item.parentListId
-            }
+    override suspend fun addItem(item: ItemModel): Int {
+        return dbQuery {
+            ItemTable.insert {
+                it[name] = item.name
+                it[link] = item.link
+                it[isDivisible] = item.isDivisible
+                it[parentListId] = item.parentListId
+            } get ItemTable.id
         }
     }
+
 
     override suspend fun getAllWishlistItems(parentListId: Int): List<ItemModel> {
         return dbQuery {

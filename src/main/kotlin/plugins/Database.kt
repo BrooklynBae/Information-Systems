@@ -30,6 +30,7 @@ object DatabaseFactory {
         transaction {
             addLogger(StdOutSqlLogger)
 
+            SchemaUtils.drop(ItemSelections, ItemTable)
             SchemaUtils.create(
                 UserTable,
                 ListTable,

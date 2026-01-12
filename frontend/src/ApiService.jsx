@@ -144,12 +144,10 @@ const ApiService = () => {
     [request]
   );
 
-  const getWishlistItem = useCallback(
-    (wishlistId, itemId) => {
-      return request(`/wishlists/${wishlistId}/items/${itemId}`);
-    },
-    [request]
-  );
+  const getWishlistItem = useCallback((wishlistId) => {
+    return request(`/wishlists/${wishlistId}/items`);
+  }, [request]);
+
 
   const updateWishlistItem = useCallback(
     async (wishlistId, itemId, itemData) => {
