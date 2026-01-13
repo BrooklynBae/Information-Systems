@@ -28,7 +28,7 @@ function PublicWishlistPage() {
                 }
                 setWishlist(wl);
 
-                const itemsData = await api.getWishlistItem(listId);
+                const itemsData = await api.getUserWishlistItems(login, listId);
                 setItems(itemsData || []);
             } catch (err) {
                 console.error(err);
