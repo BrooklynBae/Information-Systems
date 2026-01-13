@@ -1,16 +1,16 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Segoe UI', Roboto, sans-serif;
-    background: #f0f3f8;
+    background: #f5f6fa;
     color: #333;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .app {
@@ -21,22 +21,6 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-}
-
-header {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 1rem 2rem;
-    color: white;
-}
-
-.main-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
 }
 
 .auth-container {
@@ -64,7 +48,7 @@ header {
     width: 100%;
     padding: 0.9rem 1rem;
     border: 1.5px solid #ddd;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 1rem;
     background: #fdfdfd;
     transition: all 0.25s ease;
@@ -72,30 +56,29 @@ header {
 
 .input-group input:focus {
     outline: none;
-    border-color: #5a67d8;
+    border-color: #a3bffa;
     background: #fff;
-    box-shadow: 0 0 5px rgba(90,103,216,0.2);
+    box-shadow: 0 0 6px rgba(163,191,250,0.3);
 }
 
 .auth-btn {
     width: 100%;
     padding: 0.9rem 1.5rem;
-    background: #5a67d8;
-    color: #fff;
+    background: #a3bffa;
+    color: #1a202c;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.25s ease;
 }
 
 .auth-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 15px rgba(90,103,216,0.3);
+    box-shadow: 0 6px 15px rgba(127,156,245,0.3);
 }
 
 .switch-link {
-    color: #5a67d8;
+    color: #7f9cf5;
     cursor: pointer;
     font-weight: 600;
     text-decoration: none;
@@ -124,9 +107,5 @@ header {
     .auth-container {
         margin: 1rem;
         padding: 2rem 1.5rem;
-    }
-
-    header {
-        padding: 1rem;
     }
 }

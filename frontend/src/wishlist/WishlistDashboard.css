@@ -1,79 +1,71 @@
+/* Контейнер Dashboard */
 .dashboard {
     width: 100%;
     min-height: 100vh;
     padding: 2rem;
-    background: #f5f7fa;
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: #f5f6fa; /* нежный голубой фон */
     text-align: center;
 }
 
+/* Заголовок Dashboard */
 .dashboard-header {
     margin-bottom: 3rem;
-    color: #333;
 }
 
 .dashboard-header h1 {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
-    color: #333;
+    color: #4b4fc3; /* мягкий фиолетовый */
     margin-bottom: 0.5rem;
 }
 
 .dashboard-header p {
     font-size: 1.1rem;
-    color: #555;
+    color: #6b6fc1; /* пастельный синий/фиолетовый */
     max-width: 600px;
     margin: 0 auto;
 }
 
-/* Форма создания */
+/* Форма создания нового вишлиста */
 .create-form {
     max-width: 600px;
     margin: 0 auto 3rem;
-    background: #fff;
+    background: #ffffff;
     border-radius: 16px;
     padding: 2rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
-.input-group {
-    display: flex;
-    gap: 0.8rem;
-    align-items: flex-end;
-    flex-wrap: wrap;
+    box-shadow: 0 10px 25px rgba(163, 179, 255, 0.15); /* мягкая фиолетовая тень */
 }
 
 .create-form input {
     flex: 1;
     padding: 0.9rem 1.2rem;
-    border: 1.5px solid #ddd;
-    border-radius: 10px;
-    font-size: 1rem;
-    background: #fdfdfd;
-    transition: all 0.25s ease;
+    border: 1.5px solid #d6dbff; /* мягкий голубой контур */
+    border-radius: 12px;
+    background: #fafbff; /* лёгкий голубой фон */
+    transition: all 0.2s;
 }
 
 .create-form input:focus {
+    border-color: #a5b3ff; /* пастельный фиолетовый */
+    box-shadow: 0 0 6px rgba(163, 179, 255, 0.3);
     outline: none;
-    border-color: #5a67d8;
-    background: #fff;
-    box-shadow: 0 0 5px rgba(90,103,216,0.2);
 }
 
 .create-form button {
     padding: 0.9rem 1.8rem;
-    background: #5a67d8;
-    color: #fff;
+    background: #bfc3ff; /* пастельный фиолетовый */
+    color: #2c2f7c; /* тёмный фиолетовый текст */
+    border-radius: 12px;
     border: none;
-    border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.2s;
+    margin-top: 1.5rem
 }
 
 .create-form button:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 6px 15px rgba(90,103,216,0.3);
+    box-shadow: 0 6px 15px rgba(163, 179, 255, 0.3);
 }
 
 .create-form button:disabled {
@@ -90,96 +82,68 @@
     gap: 1.8rem;
 }
 
-/* Карточка */
+/* Карточки вишлистов */
 .wishlist-card {
-    background: #fff;
+    background: #ffffff;
     border-radius: 16px;
     padding: 1.5rem;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    border: 1px solid #eee;
-    position: relative;
+    box-shadow: 0 8px 24px rgba(163, 179, 255, 0.15); /* мягкая тень */
+    border: 1px solid #e0e3ff; /* светлый фиолетовый контур */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
     transition: all 0.25s ease;
-    animation: fadeInUp 0.6s ease forwards;
 }
 
 .wishlist-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    box-shadow: 0 12px 32px rgba(163, 179, 255, 0.25);
 }
 
-.wishlist-card:nth-child(odd) { animation-delay: 0.1s; }
-.wishlist-card:nth-child(even) { animation-delay: 0.2s; }
-
-.wishlist-info h3 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.8rem;
-}
-
-.items-count {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #4c51bf;
-    background: #e3e5f9;
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    display: inline-block;
-    margin-bottom: 1rem;
-}
-
-/* Кнопка открыть внизу */
+/* Кнопка "Открыть" */
 .open-btn {
     padding: 0.5rem 1.5rem;
-    background: #f5f4ff; /* светлый фон */
-    color: #5a67d8; /* фиолетовый текст */
+    background: #e0e0f7; /* пастельный голубой */
+    color: #4b4fc3; /* мягкий фиолетовый */
     border: 1px solid #d3d0f7;
-    border-radius: 10px;
+    border-radius: 12px;
     font-weight: 600;
-    font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.25s ease;
-    margin-top: 1rem;
+    transition: all 0.2s;
 }
 
 .open-btn:hover {
-    background: #e6e5ff;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(90,103,216,0.25);
+    background: #cfd0f7;
 }
 
-/* Иконка удаления в правом верхнем углу */
+/* Кнопка удаления на карточке */
 .delete-btn {
     position: absolute;
     top: 12px;
     right: 12px;
-    background: transparent;
+    background: #ffd6d6; /* пастельный розовато-фиолетовый */
     border: none;
     cursor: pointer;
     font-size: 1.2rem;
-    color: #e53e3e;
-    transition: all 0.2s ease;
+    color: #7c2c2f;
+    border-radius: 8px;
+    padding: 4px 8px;
+    transition: all 0.2s;
 }
 
 .delete-btn:hover {
-    color: #c53030;
     transform: scale(1.1);
+    background-color: #ffaaaa;
+    color: #5c1f1f;
 }
 
 /* Пустое состояние */
 .empty-state {
     text-align: center;
     padding: 4rem 2rem;
-    color: #555;
+    color: #6b6fc1;
     grid-column: 1 / -1;
-}
-
-.empty-icon {
-    font-size: 6rem;
-    margin-bottom: 2rem;
 }
 
 .empty-state h2 {
@@ -188,26 +152,17 @@
 }
 
 .empty-state p {
-    font-size: 1.2rem;
-    max-width: 500px;
-    margin: 0 auto;
+    font-size: 1.1rem;
+    color: #8aa0ff;
 }
 
-/* Анимации */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+.browse-section.small {
+    height: 200px; /* задаём фиксированную высоту */
 }
 
-/* Адаптив */
-@media (max-width: 768px) {
-    .input-group { flex-direction: column; }
-    .create-form button,
-    .wishlist-actions { width: 100%; }
-    .wishlists-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+/* или можно добавить padding/margin для компактности */
+.browse-section.small .browse-content {
+    max-height: 100%;
+    overflow-y: auto;
 }
 
-@media (max-width: 480px) {
-    .wishlist-card { padding: 1.5rem; }
-    .dashboard-header h1 { font-size: 2rem; }
-}

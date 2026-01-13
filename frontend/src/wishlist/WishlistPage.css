@@ -1,119 +1,123 @@
-/* === Общие настройки === */
+/* Главный контейнер страницы */
 .wishlist-page {
-    max-width: 900px;
+    padding: 20px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    background: #f9fafc;
-    min-height: 100vh;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f5f6fa; /* нежный голубой фон страницы */
 }
 
-/* --- Хедер --- */
+/* Заголовок страницы */
 .wishlist-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.wishlist-header .back-btn {
+    padding: 8px 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: #d9dbff; /* пастельный голубой */
+    color: #4b4fc3; /* мягкий фиолетовый */
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.wishlist-header .back-btn:hover {
+    background-color: #bfc3ff;
 }
 
 .wishlist-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #2d3748;
+    margin: 0;
+    color: #4b4fc3; /* мягкий фиолетовый */
 }
 
-/* Кнопка назад */
-.back-btn {
-    background: #5a67d8;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.back-btn:hover {
-    background: #434190;
-}
-
-/* --- Форма добавления --- */
+/* Форма добавления нового желания */
 .add-item-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
 }
 
-.add-item-form input {
-    padding: 0.7rem 1rem;
+.add-item-form input,
+.add-item-form button {
+    padding: 10px 12px;
+    font-size: 16px;
     border-radius: 10px;
-    border: 1px solid #cbd5e0;
-    font-size: 1rem;
-    transition: all 0.3s;
+    border: 1px solid #c3c5ff; /* мягкий голубой контур */
+    background-color: #ffffff; /* белый фон */
+    transition: all 0.2s;
 }
 
 .add-item-form input:focus {
+    border-color: #a5b3ff;
+    box-shadow: 0 2px 8px rgba(163,179,255,0.3);
     outline: none;
-    border-color: #5a67d8;
-    box-shadow: 0 0 5px rgba(90,103,216,0.3);
 }
 
-.checkbox-field {
+/* Checkbox */
+.add-item-form .checkbox-field {
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    font-size: 0.9rem;
+    gap: 8px;
+    font-size: 14px;
+    color: #5b5f9c;
 }
 
-.add-btn {
-    background: #5a67d8;
-    color: #fff;
+/* Кнопка добавить */
+.add-item-form .add-btn {
+    background-color: #bfc3ff; /* пастельный фиолетовый */
+    color: #2c2f7c;
     border: none;
-    border-radius: 10px;
-    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    font-weight: 600;
+    transition: 0.2s;
 }
 
-.add-btn:hover {
-    background: #434190;
+.add-item-form .add-btn:hover {
+    background-color: #a5b3ff;
 }
 
-/* --- Список предметов --- */
+/* Список желаний */
 .items-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* --- Карточка предмета --- */
+/* Карточка одного желания */
 .item-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-    transition: all 0.3s;
+    padding: 18px;
+    border-radius: 14px;
+    background-color: #ffffff;
+    border: 1px solid #d0d3ff; /* мягкий голубой контур */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(179,185,255,0.15);
+    transition: all 0.2s;
 }
 
 .item-card:hover {
+    box-shadow: 0 6px 16px rgba(179,185,255,0.25);
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
 }
 
+/* Контент карточки */
 .item-content h3 {
-    margin: 0 0 0.3rem 0;
-    color: #2d3748;
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    color: #4b4fc3; /* мягкий фиолетовый */
 }
 
 .item-content a {
-    color: #5a67d8;
+    color: #8aa0ff; /* пастельный голубой */
     text-decoration: none;
-    font-weight: 500;
+    font-size: 14px;
 }
 
 .item-content a:hover {
@@ -121,86 +125,72 @@
 }
 
 .item-price {
-    margin-top: 0.3rem;
-    color: #4c51bf;
-    font-weight: 600;
+    margin-top: 5px;
+    font-weight: bold;
+    color: #5b5f9c; /* тёмно-фиолетовый */
 }
 
 .item-divisible {
-    margin-top: 0.2rem;
-    font-size: 0.85rem;
-    color: #718096;
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #6b6fc1;
 }
 
+/* Действия карточки */
 .item-actions {
     display: flex;
-    gap: 0.5rem;
-    flex-shrink: 0; /* предотвращает сжатие */
-    align-items: center; /* выравнивание по центру */
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
 }
 
-.edit-btn, .delete-btn {
+.item-actions button {
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
-    font-size: 1.1rem;
-    background: transparent;
-    transition: 0.2s;
+    font-weight: 500;
+    transition: all 0.2s;
 }
 
-.edit-btn:hover {
-    color: #5a67d8;
+/* Кнопка редактирования */
+.wishlist-page .edit-btn {
+    background-color: #bfc3ff; /* пастельный фиолетовый */
+    color: #2c2f7c;
 }
 
-.delete-btn:hover {
-    color: #e53e3e;
+.wishlist-page .edit-btn:hover {
+    background-color: #a5b3ff;
 }
 
-/* --- Форма редактирования --- */
+/* Кнопка удаления */
+.wishlist-page .delete-btn {
+    background-color: #ffbfc3; /* пастельный розово-фиолетовый */
+    color: #7c2c2f;
+}
+
+.wishlist-page .delete-btn:hover {
+    background-color: #ffaaaa;
+}
+
+/* Форма редактирования внутри карточки */
 .edit-form {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    flex: 1;
+    gap: 12px;
 }
 
-.edit-form input {
-    padding: 0.7rem 1rem;
-    border-radius: 10px;
-    border: 1px solid #cbd5e0;
+.edit-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: #5b5f9c;
 }
 
 .edit-actions {
     display: flex;
+    gap: 10px;
     justify-content: flex-end;
-    gap: 0.5rem;
-}
-
-.edit-actions button {
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-}
-
-.edit-actions button:first-child {
-    background: #5a67d8;
-    color: #fff;
-}
-
-.edit-actions button:first-child:hover {
-    background: #434190;
-}
-
-.edit-actions button:last-child {
-    background: #e2e8f0;
-    color: #2d3748;
-}
-
-/* --- Загрузка / пустой список --- */
-.loading, .empty-message {
-    text-align: center;
-    margin: 2rem 0;
-    color: #718096;
-    font-size: 1.1rem;
 }

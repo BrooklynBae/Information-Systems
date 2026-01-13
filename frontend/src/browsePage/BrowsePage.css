@@ -1,81 +1,86 @@
 .browse-page {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: #f9f9ff;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 5px 15px rgba(163, 179, 255, 0.1);
+    max-width: 600px; /* блок пошире */
+    margin: 0 auto 2rem;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #2d3748;
+.browse-page h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #4b4fc3;
 }
 
+/* Форма поиска */
 .search-form {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.75rem;
 }
 
 .search-form input {
     flex: 1;
-    padding: 0.7rem 1rem;
-    border-radius: 10px;
-    border: 1px solid #cbd5e0;
+    padding: 0.6rem 1rem;
+    border: 1px solid #d6dbff;
+    border-radius: 8px;
     font-size: 1rem;
 }
 
 .search-form button {
-    background: #5a67d8;
-    color: #fff;
+    padding: 0.6rem 1.2rem;
     border: none;
-    padding: 0.7rem 1.5rem;
-    border-radius: 10px;
+    border-radius: 8px;
+    background: #bfc3ff;
+    color: #2c2f7c;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.2s;
 }
 
 .search-form button:hover {
-    background: #434190;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(163, 179, 255, 0.2);
 }
 
-.loading, .error, .empty-message {
-    text-align: center;
-    margin-top: 1rem;
-    color: #718096;
+/* Сообщения об ошибках и загрузке */
+.status-message {
+    font-size: 0.9rem;
+    color: #7c2c2f;
+    margin-bottom: 0.5rem;
 }
 
-.error {
-    color: #e53e3e;
-}
-
+/* Список найденных вишлистов */
 .wishlists-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.5rem; /* отступ сверху, чтобы смещало контент вниз */
 }
 
 .wishlist-card {
-    padding: 1rem 1.5rem;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
     cursor: pointer;
-    transition: all 0.3s;
+    border: 1px solid #e0e3ff;
+    transition: all 0.2s;
 }
 
 .wishlist-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(163, 179, 255, 0.15);
 }
 
 .wishlist-card h3 {
     margin: 0;
-    color: #2d3748;
+    font-size: 1rem;
+    color: #4b4fc3;
 }
 
 .wishlist-card p {
-    margin: 0.3rem 0 0 0;
-    color: #4a5568;
+    margin: 0.2rem 0 0;
+    font-size: 0.85rem;
+    color: #6b6fc1;
 }

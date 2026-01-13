@@ -38,7 +38,7 @@ function BrowsePage() {
 
     return (
         <div className="browse-page">
-            <h1>Поиск вишлистов пользователей</h1>
+            <h2>Поиск вишлистов пользователей</h2>
             <form className="search-form" onSubmit={searchUserWishlists}>
                 <input
                     type="text"
@@ -49,22 +49,29 @@ function BrowsePage() {
                 <button type="submit">Поиск</button>
             </form>
 
-            {loading && <div className="loading">Загрузка...</div>}
-            {error && <div className="error">{error}</div>}
+            {/* Блок статуса (загрузка или ошибка) */}
+            {(loading || error) && (
+                <div className="status-message">
+                    {loading && <span>Загрузка...</span>}
+                    {error && <span className="error">{error}</span>}
+                </div>
+            )}
 
-            <div className="wishlists-list">
-                {wishlists.length === 0 && !loading && !error && <div className="empty-message">Нет результатов</div>}
-                {wishlists.map((wl) => (
-                    <div
-                        key={wl.id}
-                        className="wishlist-card"
-                        onClick={() => navigate(`/public/${login}/${wl.id}`)}
-                    >
-                        <h3>{wl.name}</h3>
-                        {wl.description && <p>{wl.description}</p>}
-                    </div>
-                ))}
-            </div>
+            {/* Результаты поиска */}
+            {wishlists.length > 0 && (
+                <div className="wishlists-list">
+                    {wishlists.map((wl) => (
+                        <div
+                            key={wl.id}
+                            className="wishlist-card"
+                            onClick={() => navigate(`/public/${login}/${wl.id}`)}
+                        >
+                            <h3>{wl.name}</h3>
+                            {wl.description && <p>{wl.description}</p>}
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

@@ -61,11 +61,10 @@ function WishlistDashboard() {
     return (
         <div className="dashboard">
             <header className="dashboard-header">
-                <section className="browse-section">
+                <section className="browse-section small">
                     <BrowsePage/>
                 </section>
-                <h1>Wishlisty</h1>
-                <p>Управляйте своими списками желаний</p>
+
             </header>
 
             <form className="create-form" onSubmit={createWishlist}>
@@ -89,12 +88,6 @@ function WishlistDashboard() {
                         <div className="wishlist-info">
                             <h3>{wishlist.name}</h3>
                             <div className="wishlist-stats">
-                                <span className="items-count">{wishlist.itemsCount || 0} желаний</span>
-                                {wishlist.updatedAt && (
-                                    <span className="updated-at">
-                                        Обновлён: {new Date(wishlist.updatedAt).toLocaleDateString()}
-                                    </span>
-                                )}
                             </div>
                         </div>
                         <div className="wishlist-actions">

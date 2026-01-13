@@ -13,9 +13,9 @@ function AuthPage() {
 
   return (
     <div className="app">
-      <main className="main-content">
-        {page === "login" ? (
-          <Login onAuth={handleAuth} setPage={setPage} />
+        <main className="main-content">
+            {page === "login" ? (
+                <Login onAuth={handleAuth} setPage={setPage} />
         ) : (
           <Register onAuth={handleAuth} setPage={setPage} />
         )}
