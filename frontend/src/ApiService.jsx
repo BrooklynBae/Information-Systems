@@ -26,7 +26,6 @@ const ApiService = () => {
       }
 
       return hasJson ? await response.json() : null;
-
     } catch (err) {
       console.error("API Error:", err);
       throw err;
@@ -34,29 +33,39 @@ const ApiService = () => {
   };
 
   // ================= AUTH =================
-  const login = (credentials) => request("/auth/login", { method: "POST", body: JSON.stringify(credentials) });
-  const register = (userData) => request("/auth/register", { method: "POST", body: JSON.stringify(userData) });
+  const login = (credentials) =>
+    request("/auth/login", { method: "POST", body: JSON.stringify(credentials) });
+
+  const register = (userData) =>
+    request("/auth/register", { method: "POST", body: JSON.stringify(userData) });
+
   const logout = () => request("/auth/logout", { method: "POST" });
   const refreshToken = () => request("/auth/refresh");
 
   // ================= PROFILE =================
   const getProfile = () => request("/profile");
-  const updateProfile = (profileData) => request("/profile", { method: "PUT", body: JSON.stringify(profileData) });
+  const updateProfile = (profileData) =>
+    request("/profile", { method: "PUT", body: JSON.stringify(profileData) });
 
   // ================= WISHLISTS =================
   const getWishlists = () => request("/wishlists");
-  const getWishlist = (id) => request(`/wishlists/${id}/items`);
-  const createWishlist = (data) => request("/wishlists", { method: "POST", body: JSON.stringify(data) });
-  const updateWishlist = (id, data) => request(`/wishlists/${id}`, { method: "PUT", body: JSON.stringify(data) });
+  const getWishlist = (id) => request(`/wishlists/${id}`); // ✅ исправлено
+  const createWishlist = (data) =>
+    request("/wishlists", { method: "POST", body: JSON.stringify(data) });
+  const updateWishlist = (id, data) =>
+    request(`/wishlists/${id}`, { method: "PUT", body: JSON.stringify(data) });
   const deleteWishlist = (id) => request(`/wishlists/${id}`, { method: "DELETE" });
 
   // ================= ITEMS =================
-  const getWishlistItem = (listId) => request(`/wishlists/${listId}/items`);
-  const createWishlistItem = (listId, data) => request(`/wishlists/${listId}/items`, { method: "POST", body: JSON.stringify(data) });
-  const updateWishlistItem = (listId, itemId, data) => request(`/wishlists/${listId}/items/${itemId}`, { method: "PUT", body: JSON.stringify(data) });
-  const deleteWishlistItem = (listId, itemId) => request(`/wishlists/${listId}/items/${itemId}`, { method: "DELETE" });
+  const getWishlistItems = (listId) => request(`/wishlists/${listId}/items`); // ✅ переименовал логично
+  const createWishlistItem = (listId, data) =>
+    request(`/wishlists/${listId}/items`, { method: "POST", body: JSON.stringify(data) });
+  const updateWishlistItem = (listId, itemId, data) =>
+    request(`/wishlists/${listId}/items/${itemId}`, { method: "PUT", body: JSON.stringify(data) });
+  const deleteWishlistItem = (listId, itemId) =>
+    request(`/wishlists/${listId}/items/${itemId}`, { method: "DELETE" });
 
-  // ================= USERS =================
+  // ================= USERS (ADMIN-ish) =================
   const getUsers = () => request("/users");
   const createUser = (data) => request("/users", { method: "POST", body: JSON.stringify(data) });
   const updateUser = (id, data) => request(`/users/${id}`, { method: "PUT", body: JSON.stringify(data) });
@@ -76,52 +85,60 @@ const ApiService = () => {
   const getUser = (login) => request(`/users/${login}`);
   const getUserWishlists = (login) => request(`/users/${login}/wishlists`);
 
+  // ✅ Добавлено: items публичного вишлиста (по JWT, как на беке)
+  const getUserWishlistItems = (login, listId) =>
+    request(`/users/${login}/wishlists/${listId}/items`);
 
-  // ================= RESERVATIONS =================
-  const reserveItem = (itemId) => request(`/items/${itemId}/reserve`, { method: "POST" }); // эндпоинт бронирования
+  // ================= RESERVATIONS & CONTRIBUTIONS =================
+  const reserveItem = (itemId) => request(`/items/${itemId}/reserve`, { method: "POST" });
+  const unreserveItem = (itemId) => request(`/items/${itemId}/reserve`, { method: "DELETE" });
+
+  // ✅ Исправлено: путь + метод (бек ждёт PUT /contribution)
   const contributeToItem = (itemId, amountCents) =>
-      request(`/items/${itemId}/contribute`, { method: "POST", body: JSON.stringify({ amountCents }) });
+    request(`/items/${itemId}/contribution`, {
+      method: "PUT",
+      body: JSON.stringify({ amountCents }),
+    });
+
+  const deleteMyContribution = (itemId) =>
+    request(`/items/${itemId}/contribution`, { method: "DELETE" });
 
   return {
-    // AUTH
     login,
     register,
     logout,
     refreshToken,
 
-    // PROFILE
     getProfile,
     updateProfile,
 
-    // WISHLISTS
     getWishlists,
     getWishlist,
     createWishlist,
     updateWishlist,
     deleteWishlist,
 
-    // ITEMS
-    getWishlistItem,
+    getWishlistItems,
     createWishlistItem,
     updateWishlistItem,
     deleteWishlistItem,
 
-    // USERS
     getUsers,
     createUser,
     updateUser,
     deleteUser,
 
-    // UPLOAD
     uploadImage,
-
-    // SEARCH
     searchWishlists,
 
-    // USERS PUBLIC
     getUser,
     getUserWishlists,
+    getUserWishlistItems,
 
+    reserveItem,
+    unreserveItem,
+    contributeToItem,
+    deleteMyContribution,
   };
 };
 
