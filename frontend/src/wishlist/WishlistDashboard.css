@@ -101,6 +101,7 @@
     box-shadow: 0 12px 32px rgba(163, 179, 255, 0.25);
 }
 
+
 /* Кнопка "Открыть" */
 .open-btn {
     padding: 0.5rem 1.5rem;
@@ -166,3 +167,27 @@
     overflow-y: auto;
 }
 
+/* Кнопка "Выйти" */
+.logout-btn {
+    padding: 0.6rem 1.4rem;
+    background: #ffe3e3; /* мягкий розовый */
+    color: #7c2c2f;
+    border: 1px solid #ffcaca;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Hover */
+.logout-btn:hover {
+    background: #ffcccc;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(255, 180, 180, 0.35);
+}
+
+/* Active */
+.logout-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(255, 180, 180, 0.25);
+}

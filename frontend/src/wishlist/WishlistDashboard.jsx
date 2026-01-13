@@ -114,7 +114,8 @@ function WishlistDashboard() {
             <div style={{ opacity: 0.8, marginTop: 2 }}>Мои вишлисты</div>
           </div>
 
-          <button onClick={logout}>Выйти</button>
+          <button
+             className="logout-btn" onClick={logout}>Выйти</button>
         </div>
 
         <section className="browse-section small" style={{ marginTop: 14 }}>
